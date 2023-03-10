@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: AppColors.background.white,
   },
+  bannerImage: {},
   contentHeader: {
     flexDirection: 'column',
     // marginTop: '2%',

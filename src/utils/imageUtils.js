@@ -11,6 +11,8 @@ const imageUtils = {
   Gallery_img_4: require('../assets/banner_2.jpg'),
   leftArrow: require('../assets/leftArrow.png'),
   upi: require('../assets/UPI-FM.jpg'),
+  about_banner_img:
+    'https://t3.ftcdn.net/jpg/05/18/50/62/240_F_518506284_rkyWcqDIj2susJ1L6kagRu0g9oW3ipWq.jpg',
   // view_1: require("../assets/sun1.jpeg")
 };
 
