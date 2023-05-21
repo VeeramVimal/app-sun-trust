@@ -1,10 +1,18 @@
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import {Icon} from 'react-native-elements';
 import AppBarHeader from '../components/appBarHeader';
 import {AppColors, AppFonts} from '../themes';
-// import CustomInput from '../components/CustomInput';
-// import CustomButton from '../components/CustomButton';
+import {Card, TextInput} from 'react-native-paper';
+import {useForm} from 'react-hook-form';
+import CustomInput from '../components/CustomInput';
+import CustomButton from '../components/CustomButton';
 
 const addressDetails = [
   {
@@ -24,11 +32,31 @@ const addressDetails = [
   },
 ];
 const ContactUs = () => {
-  const [data, setData] = useState({
-    name: '',
+  const [isSubmited, setIsSubmited] = useState(true);
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      mobile: '',
+      message: '',
+    },
   });
-  const handleChange = event => {
-    setData({...preProps, [event.target.name]: event.target.value});
+  const commonProps = {
+    errors,
+    control,
+  };
+  // const handleChange = event => {
+  //   setData({...preProps, [event.target.name]: event.target.value});
+  // };
+  const togglePostCard = () => {
+    setIsSubmited(false);
+  };
+  const onSubmit = data => {
+    console.log('data============', data);
   };
   return (
     <View>
@@ -39,17 +67,99 @@ const ContactUs = () => {
             flex: 8,
             justifyContent: 'flex-start',
           }}>
-          <Text style={styles.heading}> Get in Touch</Text>
-
-          <TextInput
+          <Card style={styles.postCard}>
+            {isSubmited ? (
+              <View>
+                <Icon
+                  active
+                  name="ios-checkmark-circle"
+                  style={{
+                    fontSize: 30,
+                    marginLeft: 5,
+                    marginRight: 10,
+                  }}
+                  color={AppColors.background.tertiary}
+                  type="ionicon"
+                />
+                <View style={styles.contentHeader}>
+                  <Text style={styles.heading}>
+                    {' '}
+                    Thanks. We will get in touch with you as soon as possible
+                  </Text>
+                </View>
+                <View>
+                  <TouchableOpacity success onPress={() => togglePostCard()}>
+                    <Icon
+                      active
+                      name="refresh"
+                      style={{fontSize: 40, color: '#64DD17', marginLeft: 10}}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : (
+              <View>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                  }}>
+                  <CustomInput
+                    Name={'Name'}
+                    keyName={'name'}
+                    {...commonProps}
+                    placeholder="Enter your name"
+                    mode="outlined"
+                    required={false}
+                  />
+                  <CustomInput
+                    Name={'Email'}
+                    keyName={'email'}
+                    {...commonProps}
+                    placeholder="Enter your Email"
+                    mode="outlined"
+                    required={false}
+                  />
+                  <CustomInput
+                    Name={'Mobile'}
+                    keyName={'mobile'}
+                    {...commonProps}
+                    placeholder="Enter your mobile number"
+                    mode="outlined"
+                    required={false}
+                  />
+                  <CustomInput
+                    Name={'Message'}
+                    keyName={'message'}
+                    {...commonProps}
+                    placeholder="Type your message"
+                    mode="outlined"
+                    required={false}
+                  />
+                </View>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <View style={styles.buttonStyle}>
+                    <CustomButton
+                      buttonTitle={'Submit'}
+                      isSubmit={isSubmited}
+                      onPress={handleSubmit(onSubmit)}
+                      color={AppColors.background.tertiary}
+                      isArrowShow={true}
+                    />
+                  </View>
+                </View>
+              </View>
+            )}
+          </Card>
+          {/* <TextInput
             style={styles.inputStyles}
             name="name"
             value={data.name}
             placeholder="Enter your name"
             onChangeText={handleChange}
-          />
+          /> */}
         </View>
-        <View style={{marginTop: '15%'}}>
+        <View style={{marginTop: 10, marginLeft: 25}}>
           {addressDetails.map((item, key) => {
             return (
               <View style={styles.contact_container}>
@@ -101,6 +211,7 @@ const styles = StyleSheet.create({
     lineHeight: 32,
     color: AppColors.black,
     fontFamily: AppFonts.family.extraLight,
+    alignContent: 'center',
   },
 
   headName: {
@@ -129,6 +240,21 @@ const styles = StyleSheet.create({
     padding: 0,
     borderRadius: 4,
     width: '85%',
+  },
+  postCard: {
+    marginLeft: 25,
+    // marginRight: 10,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  contentHeader: {
+    flexDirection: 'row',
+    marginTop: '4%',
+  },
+  buttonStyle: {
+    width: '90%',
+    marginTop: '10%',
+    marginHorizontal: '5%',
   },
 });
 export default ContactUs;
