@@ -22,6 +22,7 @@ export default function CustomInput({
   secureTextEntry,
   validate,
   mode,
+  placeholder,
 }) {
   return (
     <View>
@@ -56,6 +57,7 @@ export default function CustomInput({
                 onSelectType ? onSelectType(e) : null;
               }}
               value={value}
+              placeholder={placeholder}
               activeOutlineColor={AppColors.secondarylightBlue}
               activeUnderlineColor={AppColors.secondarylightBlue}
               secureTextEntry={secureTextEntry}
